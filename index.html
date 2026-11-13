@@ -134,9 +134,9 @@
     <a href="https://map.naver.com/" target="_blank" rel="noopener">NAVERマップ</a>
   </div>
   <div class="legend">
-    <span><i class="dot" style="background:var(--must)"></i>絶対行きたい＝2点</span>
-    <span><i class="dot" style="background:var(--maybe)"></i>気になる＝1点</span>
-    <span><i class="dot" style="background:var(--pass)"></i>パス＝0点</span>
+    <span><i class="dot" style="background:var(--must)"></i>#マスト＝2点</span>
+    <span><i class="dot" style="background:var(--maybe)"></i>#できれば＝1点</span>
+    <span><i class="dot" style="background:var(--pass)"></i>#スルー＝0点</span>
   </div>
 
   <nav><div class="tabs" role="tablist" id="tabs"></div></nav>
@@ -325,9 +325,9 @@ function renderMain(){
         <div class="ttl"><b>${esc(i.n)}</b><span class="tag">${esc(i.t)}</span></div>
         <p class="desc">${esc(i.d)}</p>
         <div class="votes">
-          <button class="vb" data-id="${i.id}" data-v="2" aria-pressed="${v===2}">絶対行きたい</button>
-          <button class="vb" data-id="${i.id}" data-v="1" aria-pressed="${v===1}">気になる</button>
-          <button class="vb" data-id="${i.id}" data-v="0" aria-pressed="${v===0}">パス</button>
+          <button class="vb" data-id="${i.id}" data-v="2" aria-pressed="${v===2}">#マスト</button>
+          <button class="vb" data-id="${i.id}" data-v="1" aria-pressed="${v===1}">#できれば</button>
+          <button class="vb" data-id="${i.id}" data-v="0" aria-pressed="${v===0}">#スルー</button>
         </div>
         <div class="links">${linksFor(i)}</div>
       </div>`;
@@ -380,7 +380,7 @@ function renderResults(){
       html += `<div class="rrow ${rank===1?"top":""}">
         <div class="rank">${rank}</div>
         <div><div class="rname">${r.i.e} ${esc(r.i.n)}</div>
-          <div class="rwho">${r.must.length?`<span class="m">絶対</span> ${r.must.map(esc).join("・")}　`:""}${r.maybe.length?`<span class="y">気になる</span> ${r.maybe.map(esc).join("・")}`:""}</div></div>
+          <div class="rwho">${r.must.length?`<span class="m">#マスト</span> ${r.must.map(esc).join("・")}　`:""}${r.maybe.length?`<span class="y">#できれば</span> ${r.maybe.map(esc).join("・")}`:""}</div></div>
         <div><div class="meter">${bars}</div><div class="score">${r.score}点</div></div>
       </div>`;
     });
@@ -396,7 +396,7 @@ function renderBar(){
   const total = ITEMS.length;
   const done = Object.keys(state.picks).filter(k => ITEMS.some(i => i.id === k)).length;
   const must = Object.values(state.picks).filter(v => v === 2).length;
-  $("#prog").innerHTML = `<strong>${done}/${total}</strong> 回答済み<br>絶対行きたい ${must}件`;
+  $("#prog").innerHTML = `<strong>${done}/${total}</strong> 回答済み<br>#マスト ${must}件`;
   const sb = $("#saveBtn");
   sb.disabled = saving || dbStatus === "off";
   sb.textContent = saving ? "保存中…" : (dbStatus === "off") ? "保存不可" : "保存";
