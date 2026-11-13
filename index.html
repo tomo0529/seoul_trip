@@ -254,7 +254,7 @@ function linksFor(i){
 
 // ---------- state ----------
 const LS = "seoul-survey-v1";
-let state = {name:"", picks:{}, memo:""};
+let state = {name:"", picks:{}, memo:"", drafts:{}};  // drafts: 名前ごとの下書き
 let tab = "area";
 let db = null;
 let allVotes = {};      // id -> {name, picks, memo, updatedAt}
@@ -269,7 +269,26 @@ function load(){
   }catch(e){}
 }
 function persist(){
+  if(state.name) state.drafts[state.name] = {picks: Object.assign({}, state.picks), memo: state.memo};
   try{ localStorage.setItem(LS, JSON.stringify(state)); }catch(e){}
+}
+function hasPicks(o){ return !!(o && o.picks && Object.keys(o.picks).length); }
+// 名前を切り替えた時：その人の下書き → なければ保存済みの回答 → なければ空
+function switchTo(key){
+  state.name = key;
+  const draft = state.drafts[key];
+  const saved = allVotes[key];
+  let msg = "";
+  if(draft && (hasPicks(draft) || (draft.memo||"").trim())){
+    state.picks = Object.assign({}, draft.picks); state.memo = String(draft.memo || "");
+  }else if(saved){
+    state.picks = Object.assign({}, saved.picks || {}); state.memo = String(saved.memo || "");
+    msg = "前に保存した回答を読み込んだよ";
+  }else{
+    state.picks = {}; state.memo = "";
+  }
+  persist(); renderAll();
+  if(msg) toast(msg);
 }
 
 // ---------- helpers ----------
@@ -316,7 +335,7 @@ function renderMain(){
   }
   $("#main").innerHTML = html;
   const m = $("#memo");
-  if(m) m.addEventListener("input", e => { state.memo = e.target.value; persist(); });
+  if(m) m.addEventListener("input", e => { if(!state.name){ e.target.value=""; toast("先に名前を選んでね"); return; } state.memo = e.target.value; persist(); });
 }
 
 function renderResults(){
@@ -392,6 +411,7 @@ document.addEventListener("click", e => {
   if(t){ tab = t.dataset.tab; renderAll(); window.scrollTo({top: $("nav").offsetTop - 0, behavior:"smooth"}); return; }
   const v = e.target.closest(".vb");
   if(v){
+    if(!state.name){ toast("先に名前を選んでね"); $("#name").focus(); window.scrollTo({top:0, behavior:"smooth"}); return; }
     const id = v.dataset.id, val = Number(v.dataset.v);
     if(state.picks[id] === val) delete state.picks[id]; else state.picks[id] = val;
     persist(); renderTabs(); renderBar();
@@ -402,14 +422,7 @@ document.addEventListener("click", e => {
   }
 });
 
-$("#name").addEventListener("change", e => {
-  state.name = e.target.value; persist();
-  const mine = allVotes[state.name];
-  if(mine && !Object.keys(state.picks).length){
-    state.picks = Object.assign({}, mine.picks || {}); state.memo = String(mine.memo || ""); persist(); renderAll();
-    toast("前に保存した回答を読み込んだよ");
-  }
-});
+$("#name").addEventListener("change", e => { switchTo(e.target.value); });
 
 
 $("#saveBtn").addEventListener("click", async () => {
@@ -466,7 +479,8 @@ async function initDb(){
     allVotes = next;
     clearTimeout(dbTimer); dbStatus = "live";
     const mine = state.name && next[state.name];
-    if(mine && !Object.keys(state.picks).length){
+    const d = state.name && state.drafts[state.name];
+    if(mine && !hasPicks(d) && !hasPicks(state)){
       state.picks = Object.assign({}, mine.picks || {}); state.memo = String(mine.memo || ""); persist();
     }
     renderAll();
@@ -478,7 +492,9 @@ async function initDb(){
 
 // ---------- boot ----------
 load();
-if(!MEMBERS[state.name]) state.name = "";
+if(!state.drafts || typeof state.drafts !== "object") state.drafts = {};
+if(!MEMBERS[state.name]){ state.name = ""; state.picks = {}; state.memo = ""; }
+else if(!state.drafts[state.name]) persist();
 $("#name").value = state.name;
 renderAll();
 initDb();
