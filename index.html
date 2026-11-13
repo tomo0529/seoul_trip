@@ -101,13 +101,6 @@
   .comments .cm b{display:block;font-size:12px;color:var(--sub);margin-bottom:2px}
   .empty{color:var(--sub);font-size:14px;padding:20px 4px}
 
-  .modal{position:fixed;inset:0;background:rgba(29,27,25,.5);display:none;align-items:flex-end;justify-content:center;z-index:30}
-  .modal.open{display:flex}
-  .sheet{background:var(--card);width:100%;max-width:760px;border-radius:18px 18px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom))}
-  .sheet h3{margin:0 0 6px;font-size:17px}
-  .sheet p{margin:0 0 10px;font-size:13px;color:var(--sub);line-height:1.6}
-  .sheet textarea{min-height:200px;font-size:13px}
-  .sheet .row{display:flex;gap:8px;margin-top:10px;justify-content:flex-end}
 </style>
 </head>
 <body>
@@ -121,7 +114,7 @@
       SEOUL TRIP · 4/23–4/25 · 4人
     </div>
     <h1>ソウルで<em>どこ行く？何食べる？</em><br>アンケート</h1>
-    <p class="lead">宿も行き先もまだ白紙なので、気になるものに印つけてってください。全部答えなくてOK。<br>最後に「保存」or「LINE用にコピー」で送ってね。</p>
+    <p class="lead">宿も行き先もまだ白紙なので、気になるものに印つけてってください。全部答えなくてOK。<br>最後に「保存」を押せば集計に反映されるよ（あとから何回でも直せる）。</p>
   </header>
 
   <div class="namebox">
@@ -152,18 +145,8 @@
 
 <div class="bar"><div class="in">
   <div class="prog" id="prog"></div>
-  <button class="btn ghost" id="copyBtn">LINE用にコピー</button>
   <button class="btn primary" id="saveBtn">保存</button>
 </div></div>
-
-<div class="modal" id="modal" role="dialog" aria-modal="true">
-  <div class="sheet">
-    <h3>コピーしてLINEに貼ってね</h3>
-    <p id="modalNote">自動コピーできなかったので、下のテキストを長押し→全選択→コピーしてください。</p>
-    <textarea id="modalText" readonly></textarea>
-    <div class="row"><button class="btn ghost" id="modalClose">閉じる</button></div>
-  </div>
-</div>
 
 <div class="toast" id="toast"></div>
 
@@ -340,7 +323,7 @@ function renderResults(){
   let html = "";
   const voters = Object.entries(allVotes);
   if(dbStatus === "off" || dbStatus === "readonly"){
-    html += `<div class="status">集計データにつながってないみたい。<br>（Firebaseの設定がまだか、通信エラー）とりあえず「LINE用にコピー」で送ってね。${voters.length ? "" : "下は<b>自分の回答だけ</b>のプレビュー。"}</div>`;
+    html += `<div class="status">集計データにつながってないみたい。<br>電波を確認して、ページを再読み込みしてみて。${voters.length ? "" : "下は<b>自分の回答だけ</b>のプレビュー。"}</div>`;
   }else if(dbStatus === "connecting"){
     html += `<div class="status">集計データを読み込み中…</div>`;
   }else if(dbStatus === "stale"){
@@ -402,21 +385,6 @@ function renderBar(){
 
 function renderAll(){ renderTabs(); renderMain(); renderBar(); }
 
-// ---------- text export ----------
-function exportText(){
-  const name = MEMBERS[state.name] || "（名前未入力）";
-  let out = `【ソウル旅行アンケート】${name}\n`;
-  for(const c of CATS.filter(x => ["area","spot","exp","food"].includes(x.id))){
-    const m = catItems(c.id).filter(i => state.picks[i.id] === 2).map(i => i.n);
-    const y = catItems(c.id).filter(i => state.picks[i.id] === 1).map(i => i.n);
-    if(!m.length && !y.length) continue;
-    out += `\n${c.emoji}${c.label}\n`;
-    if(m.length) out += `◎絶対：${m.join("、")}\n`;
-    if(y.length) out += `○気になる：${y.join("、")}\n`;
-  }
-  if(state.memo.trim()) out += `\n💬${state.memo.trim()}\n`;
-  return out;
-}
 
 // ---------- events ----------
 document.addEventListener("click", e => {
@@ -443,22 +411,10 @@ $("#name").addEventListener("change", e => {
   }
 });
 
-$("#copyBtn").addEventListener("click", async () => {
-  if(!state.name){ toast("先に名前を選んでね"); $("#name").focus(); return; }
-  const txt = exportText();
-  try{
-    await navigator.clipboard.writeText(txt);
-    toast("コピーした！LINEに貼ってね");
-  }catch(err){
-    $("#modalText").value = txt; $("#modal").classList.add("open");
-  }
-});
-$("#modalClose").addEventListener("click", () => $("#modal").classList.remove("open"));
-$("#modal").addEventListener("click", e => { if(e.target.id === "modal") $("#modal").classList.remove("open"); });
 
 $("#saveBtn").addEventListener("click", async () => {
   if(!state.name){ toast("先に名前を選んでね"); $("#name").focus(); return; }
-  if(!db){ toast("保存先につながってないので「LINE用にコピー」で送ってね"); return; }
+  if(!db){ toast("保存先につながってない…再読み込みしてみて"); return; }
   saving = true; renderBar();
   const body = {name: MEMBERS[state.name], key: state.name, picks: Object.assign({}, state.picks), memo: state.memo.slice(0,1000), updatedAt: new Date().toISOString()};
   try{
