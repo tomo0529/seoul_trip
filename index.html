@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ソウル旅行 行き先アンケート</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f6f3ee; --card:#fffdf9; --ink:#1d1b19; --sub:#6d665e; --line:#e4ddd2;
+    --red:#d2382b; --blue:#1f4e9c; --must:#d2382b; --maybe:#e2a72e; --pass:#b9b2a8;
+    --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Zen Kaku Gothic New",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  button{font:inherit;color:inherit;cursor:pointer}
+  .wrap{max-width:760px;margin:0 auto;padding:0 16px 140px}
+
+  header{padding:28px 0 18px;position:relative}
+  .eyebrow{display:flex;gap:8px;align-items:center;font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--sub)}
+  .taegeuk{width:22px;height:22px;flex:none}
+  h1{font-size:clamp(26px,6vw,36px);font-weight:900;line-height:1.2;margin:10px 0 8px;letter-spacing:-.01em}
+  h1 em{font-style:normal;color:var(--red)}
+  .lead{color:var(--sub);font-size:14px;line-height:1.7;margin:0}
+
+  .namebox{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;margin:18px 0 6px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .namebox label{font-weight:700;font-size:14px}
+  .namebox select{flex:1;min-width:140px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:inherit;font-size:16px;background:#fff;color:var(--ink)}
+  .namebox select:focus{outline:2px solid var(--blue);outline-offset:1px}
+  .guide{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;font-size:12px;color:var(--sub);margin:10px 2px 0}
+  .guide a{color:var(--blue);font-weight:700;text-decoration:none;border-bottom:1px solid #c5d3ea}
+  .links{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .links a{font-size:12px;font-weight:700;color:var(--blue);text-decoration:none;background:#eef2f9;border-radius:8px;padding:5px 9px}
+  .links a:active{background:#dce5f4}
+
+  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--sub);margin:10px 2px 0}
+  .legend span{display:inline-flex;align-items:center;gap:5px}
+  .dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+
+  nav{position:sticky;top:0;z-index:5;background:var(--bg);padding:12px 0 10px;margin-top:12px;border-bottom:1px solid var(--line)}
+  .tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{flex:none;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:8px 14px;font-size:14px;font-weight:700;white-space:nowrap}
+  .tab .cnt{font-weight:500;color:var(--sub);font-size:12px;margin-left:4px}
+  .tab[aria-selected="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .tab[aria-selected="true"] .cnt{color:#cfc8bf}
+
+  .sechead{margin:20px 2px 12px}
+  .sechead h2{font-size:20px;margin:0 0 4px;font-weight:900}
+  .sechead p{margin:0;color:var(--sub);font-size:13px;line-height:1.6}
+
+  .grid{display:grid;gap:10px}
+  .item{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px;display:grid;grid-template-columns:44px 1fr;gap:4px 12px;transition:border-color .15s, box-shadow .15s}
+  .item.v2{border-color:var(--must);box-shadow:inset 4px 0 0 var(--must)}
+  .item.v1{border-color:var(--maybe);box-shadow:inset 4px 0 0 var(--maybe)}
+  .emo{font-size:30px;line-height:44px;text-align:center;grid-row:span 2}
+  .ttl{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px}
+  .ttl b{font-size:16px}
+  .tag{font-size:11px;color:var(--blue);background:#e8eef8;border-radius:6px;padding:2px 6px;font-weight:700}
+  .desc{font-size:13px;color:var(--sub);line-height:1.6;margin:0}
+  .votes{grid-column:1 / -1;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
+  .vb{border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 4px;font-size:13px;font-weight:700}
+  .vb[aria-pressed="true"][data-v="2"]{background:var(--must);border-color:var(--must);color:#fff}
+  .vb[aria-pressed="true"][data-v="1"]{background:var(--maybe);border-color:var(--maybe);color:#fff}
+  .vb[aria-pressed="true"][data-v="0"]{background:var(--pass);border-color:var(--pass);color:#fff}
+
+  textarea{width:100%;min-height:110px;border:1px solid var(--line);border-radius:var(--radius);padding:12px;font:inherit;font-size:15px;background:#fff;resize:vertical}
+
+  .bar{position:fixed;left:0;right:0;bottom:0;z-index:10;background:rgba(246,243,238,.94);backdrop-filter:blur(8px);border-top:1px solid var(--line)}
+  .bar .in{max-width:760px;margin:0 auto;padding:10px 16px calc(10px + env(safe-area-inset-bottom));display:flex;gap:8px;align-items:center}
+  .prog{flex:1;font-size:12px;color:var(--sub);line-height:1.4}
+  .prog strong{color:var(--ink);font-size:14px}
+  .btn{border:none;border-radius:12px;padding:12px 16px;font-weight:900;font-size:14px}
+  .btn.primary{background:var(--red);color:#fff}
+  .btn.ghost{background:var(--card);border:1px solid var(--line)}
+  .btn:disabled{opacity:.5;cursor:default}
+
+  .toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:10px 16px;border-radius:12px;font-size:13px;opacity:0;pointer-events:none;transition:.25s;z-index:20;max-width:90vw;text-align:center}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  /* results */
+  .status{font-size:13px;color:var(--sub);background:var(--card);border:1px dashed var(--line);border-radius:var(--radius);padding:12px 14px;line-height:1.7;margin-bottom:12px}
+  .voters{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 4px}
+  .chip{font-size:12px;font-weight:700;border-radius:999px;padding:4px 10px;background:#fff;border:1px solid var(--line)}
+  .rcat{margin:22px 0 8px;font-size:16px;font-weight:900;display:flex;align-items:center;gap:8px}
+  .rrow{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:6px}
+  .rank{font-weight:900;font-size:15px;text-align:center;color:var(--sub)}
+  .rrow.top .rank{color:var(--red)}
+  .rname{font-weight:700;font-size:14px}
+  .rwho{font-size:12px;color:var(--sub);margin-top:3px;line-height:1.5}
+  .rwho .m{color:var(--must);font-weight:700}
+  .rwho .y{color:#b07d10;font-weight:700}
+  .meter{display:flex;gap:2px;align-items:center}
+  .meter i{width:9px;height:18px;border-radius:3px;background:#ece6dc;display:block}
+  .meter i.m{background:var(--must)}
+  .meter i.y{background:var(--maybe)}
+  .score{font-size:12px;color:var(--sub);text-align:right;margin-top:2px}
+  .comments .cm{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:6px;font-size:14px;line-height:1.6;white-space:pre-wrap}
+  .comments .cm b{display:block;font-size:12px;color:var(--sub);margin-bottom:2px}
+  .empty{color:var(--sub);font-size:14px;padding:20px 4px}
+
+  .modal{position:fixed;inset:0;background:rgba(29,27,25,.5);display:none;align-items:flex-end;justify-content:center;z-index:30}
+  .modal.open{display:flex}
+  .sheet{background:var(--card);width:100%;max-width:760px;border-radius:18px 18px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom))}
+  .sheet h3{margin:0 0 6px;font-size:17px}
+  .sheet p{margin:0 0 10px;font-size:13px;color:var(--sub);line-height:1.6}
+  .sheet textarea{min-height:200px;font-size:13px}
+  .sheet .row{display:flex;gap:8px;margin-top:10px;justify-content:flex-end}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">
+      <svg class="taegeuk" viewBox="0 0 100 100" aria-hidden="true">
+        <circle cx="50" cy="50" r="48" fill="#1f4e9c"/>
+        <path d="M2,50 a48,48 0 0 1 96,0 a24,24 0 0 1 -48,0 a24,24 0 0 0 -48,0z" fill="#d2382b"/>
+      </svg>
+      SEOUL TRIP · 4/23–4/25 · 4人
+    </div>
+    <h1>ソウルで<em>どこ行く？何食べる？</em><br>アンケート</h1>
+    <p class="lead">宿も行き先もまだ白紙なので、気になるものに印つけてってください。全部答えなくてOK。<br>最後に「保存」or「LINE用にコピー」で送ってね。</p>
+  </header>
+
+  <div class="namebox">
+    <label for="name">あなたの名前</label>
+    <select id="name">
+      <option value="">選んでね</option>
+      <option value="takuya">たくや</option>
+      <option value="yu">ゆう</option>
+      <option value="takechan">たけちゃん</option>
+      <option value="ryohe">りょへ</option>
+    </select>
+  </div>
+  <div class="guide">
+    <span>📖 下調べ用：</span>
+    <a href="https://japanese.visitkorea.or.kr/" target="_blank" rel="noopener">韓国観光公社（日本語）</a>
+    <a href="https://www.konest.com/" target="_blank" rel="noopener">コネスト</a>
+    <a href="https://map.naver.com/" target="_blank" rel="noopener">NAVERマップ</a>
+  </div>
+  <div class="legend">
+    <span><i class="dot" style="background:var(--must)"></i>絶対行きたい＝2点</span>
+    <span><i class="dot" style="background:var(--maybe)"></i>気になる＝1点</span>
+    <span><i class="dot" style="background:var(--pass)"></i>パス＝0点</span>
+  </div>
+
+  <nav><div class="tabs" role="tablist" id="tabs"></div></nav>
+  <main id="main"></main>
+</div>
+
+<div class="bar"><div class="in">
+  <div class="prog" id="prog"></div>
+  <button class="btn ghost" id="copyBtn">LINE用にコピー</button>
+  <button class="btn primary" id="saveBtn">保存</button>
+</div></div>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true">
+  <div class="sheet">
+    <h3>コピーしてLINEに貼ってね</h3>
+    <p id="modalNote">自動コピーできなかったので、下のテキストを長押し→全選択→コピーしてください。</p>
+    <textarea id="modalText" readonly></textarea>
+    <div class="row"><button class="btn ghost" id="modalClose">閉じる</button></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const CATS = [
+  {id:"area", label:"宿エリア", emoji:"🏨", head:"泊まるならどのエリア？", sub:"宿選びの参考に。2泊なので拠点は1か所の想定。"},
+  {id:"spot", label:"観光スポット", emoji:"📍", head:"行きたい観光地", sub:"定番〜今っぽいエリアまで。4月下旬は桜は終わってる頃だけど新緑がきれいな時期。"},
+  {id:"exp", label:"体験・買い物", emoji:"✨", head:"やりたい体験・買い物", sub:"空き時間に入れられそうなやつ。"},
+  {id:"food", label:"グルメ", emoji:"🍖", head:"食べたいもの", sub:"2泊3日だと食事は5〜6回くらい。絞り込みに使います。"},
+  {id:"memo", label:"ひとこと", emoji:"💬", head:"ほかに行きたい所・NG・要望", sub:"リストにない場所、苦手な食べ物、予算感、朝弱いとか何でも。"},
+  {id:"result", label:"集計", emoji:"📊", head:"みんなの集計", sub:"保存された回答をリアルタイムで集計。"}
+];
+
+const ITEMS = [
+  // 宿エリア
+  {id:"a-myeongdong", cat:"area", e:"🛍️", n:"明洞", t:"中心部", d:"空港リムジン・地下鉄どっちも便利。屋台とコスメ店が密集。初ソウルなら無難。"},
+  {id:"a-hongdae", cat:"area", e:"🎸", n:"弘大・延南洞", t:"西側", d:"若者の街で夜までにぎやか。空港鉄道で仁川から乗り換えなし。"},
+  {id:"a-seongsu", cat:"area", e:"🏭", n:"聖水", t:"東側", d:"倉庫カフェとポップアップの街。おしゃれ寄りだけど中心部からは少し離れる。"},
+  {id:"a-ddp", cat:"area", e:"🌃", n:"東大門", t:"中心部", d:"ホテルが多めでコスパ良い。夜遅くまで開いてる問屋街。"},
+  {id:"a-gangnam", cat:"area", e:"🏙️", n:"江南", t:"南側", d:"きれいなホテルが多い都会エリア。旧市街の観光地へは移動が長め。"},
+  {id:"a-jongno", cat:"area", e:"🏯", n:"鍾路・仁寺洞", t:"中心部", d:"景福宮や韓屋エリアに歩いて行ける。韓屋ステイもあり。"},
+
+  // 観光スポット
+  {id:"s-gyeongbok", cat:"spot", e:"🏯", n:"景福宮", t:"鍾路", d:"ソウルを代表する王宮。韓服を着てると入場無料。"},
+  {id:"s-bukchon", cat:"spot", e:"🏘️", n:"北村韓屋村", t:"鍾路", d:"伝統家屋が並ぶ坂道の住宅街。景福宮とセットで回れる。"},
+  {id:"s-ikseon", cat:"spot", e:"🏮", n:"益善洞", t:"鍾路", d:"韓屋をリノベしたカフェや雑貨屋が集まる路地。"},
+  {id:"s-insadong", cat:"spot", e:"🎎", n:"仁寺洞", t:"鍾路", d:"伝統工芸・お茶屋さんの通り。お土産探しにも。"},
+  {id:"s-namsan", cat:"spot", e:"🗼", n:"Nソウルタワー（南山）", t:"中心部", d:"ソウル全体を見渡せる展望タワー。夜景が定番。"},
+  {id:"s-gwangjang", cat:"spot", e:"🥢", n:"広蔵市場", t:"鍾路", d:"屋台がずらっと並ぶ老舗市場。食べ歩きの聖地。"},
+  {id:"s-mangwon", cat:"spot", e:"🧺", n:"望遠市場", t:"麻浦", d:"地元感強めの市場。安くておいしい惣菜が多い。"},
+  {id:"s-seongsu", cat:"spot", e:"☕", n:"聖水洞", t:"城東", d:"倉庫カフェ・ブランドのポップアップ・セレクトショップ巡り。"},
+  {id:"s-hongdae", cat:"spot", e:"🎤", n:"弘大・延南洞", t:"麻浦", d:"路上ライブ、古着、雑貨、カフェ。夜も楽しい。"},
+  {id:"s-hannam", cat:"spot", e:"🖤", n:"漢南洞", t:"龍山", d:"感度高めのブランド店やギャラリーが多い大人エリア。"},
+  {id:"s-itaewon", cat:"spot", e:"🍸", n:"梨泰院", t:"龍山", d:"多国籍な飲食店とバーの街。夜飲み向け。"},
+  {id:"s-ddp", cat:"spot", e:"🌀", n:"東大門DDP・問屋街", t:"中区", d:"未来的な建築のDDPと、夜中まで開いてるファッションビル群。"},
+  {id:"s-garosu", cat:"spot", e:"🌳", n:"狎鴎亭・カロスキル", t:"江南", d:"並木道沿いのショップとカフェ。おしゃれ散歩。"},
+  {id:"s-coex", cat:"spot", e:"📚", n:"COEX・ピョルマダン図書館", t:"江南", d:"巨大本棚の図書館がフォトスポット。地下モールも広い。"},
+  {id:"s-lotte-tower", cat:"spot", e:"🌆", n:"ロッテワールドタワー ソウルスカイ", t:"蚕室", d:"韓国一高いビルの展望台。ガラス床あり。"},
+  {id:"s-lotte-world", cat:"spot", e:"🎢", n:"ロッテワールド", t:"蚕室", d:"屋内外の遊園地。行くなら半日〜1日つぶれる。"},
+  {id:"s-hangang", cat:"spot", e:"🌉", n:"漢江公園", t:"汝矣島・盤浦など", d:"川沿いでピクニック。盤浦大橋の噴水ショーは季節運行なので要確認。"},
+
+  // 体験・買い物
+  {id:"x-hanbok", cat:"exp", e:"👘", n:"韓服レンタルで古宮散策", t:"鍾路", d:"景福宮周辺にレンタル店多数。写真映え◎。"},
+  {id:"x-jjim", cat:"exp", e:"♨️", n:"チムジルバン・汗蒸幕", t:"各地", d:"韓国式サウナ。ゆで卵とシッケが定番。あかすりも。"},
+  {id:"x-olive", cat:"exp", e:"💄", n:"オリーブヤングでコスメ買い", t:"各地", d:"韓国コスメのドラッグストア。旗艦店は品ぞろえ多め。"},
+  {id:"x-pcolor", cat:"exp", e:"🎨", n:"パーソナルカラー診断", t:"江南・弘大など", d:"日本語OKのお店もあり。要予約が多い。"},
+  {id:"x-4cut", cat:"exp", e:"📸", n:"4カット写真", t:"各地", d:"韓国のプリクラ的セルフ写真館。4人旅の記念に。"},
+  {id:"x-kpop", cat:"exp", e:"💿", n:"K-POPグッズ・アルバム巡り", t:"明洞・弘大など", d:"レコード店や事務所の公式ショップ巡り。"},
+  {id:"x-ramyeon", cat:"exp", e:"🍜", n:"漢江でコンビニラーメン", t:"漢江", d:"コンビニのラーメン調理機で作って川辺で食べるやつ。"},
+  {id:"x-esthe", cat:"exp", e:"💆", n:"エステ・韓方マッサージ", t:"各地", d:"旅の疲れを取る系。夜に入れやすい。"},
+  {id:"x-market", cat:"exp", e:"🌙", n:"夜市・屋台めぐり", t:"各地", d:"夜のお散歩がてら軽く食べ歩き。"},
+
+  // グルメ
+  {id:"f-samgyeop", cat:"food", e:"🥓", n:"サムギョプサル", t:"焼肉", d:"分厚い豚バラを焼いてサンチュで巻く。王道。"},
+  {id:"f-hanwoo", cat:"food", e:"🥩", n:"韓牛焼肉", t:"焼肉", d:"韓国和牛。ちょっと贅沢な1食に。"},
+  {id:"f-galbi", cat:"food", e:"🍖", n:"豚カルビ・牛カルビ", t:"焼肉", d:"甘辛ダレに漬けた骨付き肉。"},
+  {id:"f-dakhan", cat:"food", e:"🐔", n:"タッカンマリ", t:"鍋", d:"鶏丸ごと1羽の水炊き。〆はカルグクス麺。東大門が有名。"},
+  {id:"f-samgye", cat:"food", e:"🍲", n:"参鶏湯", t:"スープ", d:"鶏に餅米や高麗人参を詰めて煮込む滋養スープ。"},
+  {id:"f-gejang", cat:"food", e:"🦀", n:"カンジャンケジャン", t:"海鮮", d:"ワタリガニの醤油漬け。ご飯泥棒。"},
+  {id:"f-chimaek", cat:"food", e:"🍗", n:"チキン＆ビール（チメク）", t:"夜", d:"ヤンニョムチキンとビール。宿飲みでも。"},
+  {id:"f-tteok", cat:"food", e:"🌶️", n:"トッポッキ・粉食", t:"軽食", d:"甘辛い餅、キンパ、揚げ物など屋台系軽食。"},
+  {id:"f-gwangjang", cat:"food", e:"🥞", n:"広蔵市場の屋台", t:"市場", d:"ピンデトック、麻薬キンパ、ユッケなどを食べ歩き。"},
+  {id:"f-naengmyeon", cat:"food", e:"🧊", n:"冷麺", t:"麺", d:"平壌冷麺（あっさり）か咸興冷麺（ビビン系）か。"},
+  {id:"f-kalguk", cat:"food", e:"🍜", n:"カルグクス", t:"麺", d:"手打ち麺の温かい麺料理。明洞の老舗が有名。"},
+  {id:"f-seolleong", cat:"food", e:"🥣", n:"ソルロンタン・コムタン", t:"朝ごはん", d:"牛骨の白濁スープ。朝ごはん向き。"},
+  {id:"f-bossam", cat:"food", e:"🥬", n:"ポッサム・チョッパル", t:"肉", d:"ゆで豚の包み／豚足。お酒が進む系。"},
+  {id:"f-budae", cat:"food", e:"🫕", n:"プデチゲ", t:"鍋", d:"ハム・ソーセージ・ラーメン入りの鍋。"},
+  {id:"f-gopchang", cat:"food", e:"🔥", n:"コプチャン（ホルモン）", t:"焼肉", d:"ホルモン焼き。好き嫌い分かれるけどハマる人はハマる。"},
+  {id:"f-jajang", cat:"food", e:"🍝", n:"チャジャンミョン・タンスユク", t:"韓国式中華", d:"黒い味噌麺と酢豚。出前文化の定番。"},
+  {id:"f-hotteok", cat:"food", e:"🥯", n:"ホットク・屋台スイーツ", t:"おやつ", d:"黒糖蜜入りの焼き菓子など。"},
+  {id:"f-cafe", cat:"food", e:"🍧", n:"カフェ巡り・ピンス", t:"カフェ", d:"韓国かき氷やベーカリーカフェ。聖水・延南洞あたり。"}
+];
+
+const MEMBERS = {takuya:"たくや", yu:"ゆう", takechan:"たけちゃん", ryohe:"りょへ"};
+
+// 韓国語名（NAVERマップ検索用）
+const KR = {
+  "a-myeongdong":"명동","a-hongdae":"홍대입구역","a-seongsu":"성수동","a-ddp":"동대문","a-gangnam":"강남역","a-jongno":"인사동",
+  "s-gyeongbok":"경복궁","s-bukchon":"북촌한옥마을","s-ikseon":"익선동","s-insadong":"인사동","s-namsan":"N서울타워","s-gwangjang":"광장시장",
+  "s-mangwon":"망원시장","s-seongsu":"성수동 카페거리","s-hongdae":"연남동","s-hannam":"한남동","s-itaewon":"이태원","s-ddp":"동대문디자인플라자",
+  "s-garosu":"가로수길","s-coex":"별마당도서관","s-lotte-tower":"서울스카이","s-lotte-world":"롯데월드","s-hangang":"여의도한강공원",
+  "x-hanbok":"경복궁 한복대여","x-jjim":"찜질방","x-olive":"올리브영 명동","x-pcolor":"퍼스널컬러 진단","x-4cut":"인생네컷",
+  "x-kpop":"케이팝 굿즈","x-ramyeon":"한강공원 편의점","x-esthe":"마사지","x-market":"야시장",
+  "f-samgyeop":"삼겹살","f-hanwoo":"한우","f-galbi":"돼지갈비","f-dakhan":"닭한마리","f-samgye":"삼계탕","f-gejang":"간장게장",
+  "f-chimaek":"치킨 호프","f-tteok":"떡볶이","f-gwangjang":"광장시장 먹자골목","f-naengmyeon":"냉면","f-kalguk":"칼국수","f-seolleong":"설렁탕",
+  "f-bossam":"보쌈 족발","f-budae":"부대찌개","f-gopchang":"곱창","f-jajang":"짜장면","f-hotteok":"호떡","f-cafe":"빙수 카페"
+};
+function linksFor(i){
+  const enc = encodeURIComponent;
+  const jaName = i.n.replace(/（.*?）/g,"");
+  const kr = KR[i.id] || jaName;
+  const out = [];
+  if(i.cat === "food" || i.cat === "exp"){
+    out.push(`<a href="https://www.google.com/search?q=${enc("ソウル " + jaName + " おすすめ")}" target="_blank" rel="noopener">🔍 おすすめ店を検索</a>`);
+    out.push(`<a href="https://www.google.com/search?tbm=isch&q=${enc(jaName + " ソウル")}" target="_blank" rel="noopener">🖼 写真</a>`);
+    out.push(`<a href="https://map.naver.com/p/search/${enc(kr)}" target="_blank" rel="noopener">🗺 NAVERで店を探す</a>`);
+  }else{
+    out.push(`<a href="https://www.google.com/maps/search/?api=1&query=${enc(jaName + " ソウル")}" target="_blank" rel="noopener">📍 Googleマップ</a>`);
+    out.push(`<a href="https://map.naver.com/p/search/${enc(kr)}" target="_blank" rel="noopener">🗺 NAVERマップ</a>`);
+    out.push(`<a href="https://www.google.com/search?tbm=isch&q=${enc(jaName + " ソウル")}" target="_blank" rel="noopener">🖼 写真</a>`);
+    out.push(`<a href="https://www.google.com/search?q=${enc(jaName + " ソウル 観光")}" target="_blank" rel="noopener">🔍 詳しく</a>`);
+  }
+  return out.join("");
+}
+
+// ---------- state ----------
+const LS = "seoul-survey-v1";
+let state = {name:"", picks:{}, memo:""};
+let tab = "area";
+let db = null;
+let allVotes = {};      // id -> {name, picks, memo, updatedAt}
+let dbStatus = "connecting"; // connecting | live | stale | off | readonly
+let dbTimer = null;
+let saving = false;
+
+function load(){
+  try{
+    const s = JSON.parse(localStorage.getItem(LS) || "null");
+    if(s && typeof s === "object") state = Object.assign(state, s);
+  }catch(e){}
+}
+function persist(){
+  try{ localStorage.setItem(LS, JSON.stringify(state)); }catch(e){}
+}
+
+// ---------- helpers ----------
+const $ = s => document.querySelector(s);
+function esc(s){ return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+function toast(msg){
+  const t = $("#toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(toast._t); toast._t = setTimeout(()=>t.classList.remove("show"), 2600);
+}
+function catItems(c){ return ITEMS.filter(i => i.cat === c); }
+function answeredCount(c){ return catItems(c).filter(i => state.picks[i.id] !== undefined).length; }
+
+// ---------- render ----------
+function renderTabs(){
+  $("#tabs").innerHTML = CATS.map(c => {
+    let cnt = "";
+    if(["area","spot","exp","food"].includes(c.id)) cnt = `<span class="cnt">${answeredCount(c.id)}/${catItems(c.id).length}</span>`;
+    return `<button class="tab" role="tab" data-tab="${c.id}" aria-selected="${tab===c.id}">${c.emoji} ${c.label}${cnt}</button>`;
+  }).join("");
+}
+
+function renderMain(){
+  const c = CATS.find(x => x.id === tab);
+  let html = `<div class="sechead"><h2>${c.emoji} ${c.head}</h2><p>${c.sub}</p></div>`;
+  if(tab === "memo"){
+    html += `<textarea id="memo" placeholder="例：辛いもの苦手／カジノ行ってみたい／初日は夕方着…">${esc(state.memo)}</textarea>`;
+  }else if(tab === "result"){
+    html += renderResults();
+  }else{
+    html += `<div class="grid">` + catItems(tab).map(i => {
+      const v = state.picks[i.id];
+      return `<div class="item ${v===2?"v2":v===1?"v1":""}">
+        <div class="emo" aria-hidden="true">${i.e}</div>
+        <div class="ttl"><b>${esc(i.n)}</b><span class="tag">${esc(i.t)}</span></div>
+        <p class="desc">${esc(i.d)}</p>
+        <div class="votes">
+          <button class="vb" data-id="${i.id}" data-v="2" aria-pressed="${v===2}">絶対行きたい</button>
+          <button class="vb" data-id="${i.id}" data-v="1" aria-pressed="${v===1}">気になる</button>
+          <button class="vb" data-id="${i.id}" data-v="0" aria-pressed="${v===0}">パス</button>
+        </div>
+        <div class="links">${linksFor(i)}</div>
+      </div>`;
+    }).join("") + `</div>`;
+  }
+  $("#main").innerHTML = html;
+  const m = $("#memo");
+  if(m) m.addEventListener("input", e => { state.memo = e.target.value; persist(); });
+}
+
+function renderResults(){
+  let html = "";
+  const voters = Object.entries(allVotes);
+  if(dbStatus === "off" || dbStatus === "readonly"){
+    html += `<div class="status">集計データにつながってないみたい。<br>（Firebaseの設定がまだか、通信エラー）とりあえず「LINE用にコピー」で送ってね。${voters.length ? "" : "下は<b>自分の回答だけ</b>のプレビュー。"}</div>`;
+  }else if(dbStatus === "connecting"){
+    html += `<div class="status">集計データを読み込み中…</div>`;
+  }else if(dbStatus === "stale"){
+    html += `<div class="status">集計データにまだつながらない…。表示が古いかも。</div>`;
+  }
+  let pool = voters;
+  if(!voters.length && (dbStatus === "off" || dbStatus === "readonly")){
+    pool = [["me", {name: MEMBERS[state.name] || "自分", picks: state.picks, memo: state.memo}]];
+  }
+  if(!pool.length){ return html + `<div class="empty">まだ誰も保存してない。最初の1人になろう。</div>`; }
+
+  html += `<div class="voters">` + pool.map(([id,v]) => `<span class="chip">${esc(v.name || "名無し")}</span>`).join("") + `<span class="chip" style="background:transparent;border-style:dashed">${pool.length}人回答</span></div>`;
+
+  for(const c of CATS.filter(x => ["area","spot","exp","food"].includes(x.id))){
+    const rows = catItems(c.id).map(i => {
+      const must = [], maybe = [];
+      for(const [id,v] of pool){
+        const p = v.picks && v.picks[i.id];
+        if(p === 2) must.push(v.name || "名無し");
+        else if(p === 1) maybe.push(v.name || "名無し");
+      }
+      return {i, must, maybe, score: must.length*2 + maybe.length};
+    }).filter(r => r.score > 0).sort((a,b) => b.score - a.score || b.must.length - a.must.length);
+
+    html += `<div class="rcat">${c.emoji} ${c.label}</div>`;
+    if(!rows.length){ html += `<div class="empty" style="padding:6px 4px">まだ票なし</div>`; continue; }
+    let prev = null, rank = 0;
+    rows.forEach((r, idx) => {
+      if(r.score !== prev){ rank = idx + 1; prev = r.score; }
+      const max = pool.length * 2;
+      let bars = "";
+      for(let k=0;k<r.must.length;k++) bars += `<i class="m"></i><i class="m"></i>`;
+      for(let k=0;k<r.maybe.length;k++) bars += `<i class="y"></i>`;
+      for(let k=r.score;k<max;k++) bars += `<i></i>`;
+      html += `<div class="rrow ${rank===1?"top":""}">
+        <div class="rank">${rank}</div>
+        <div><div class="rname">${r.i.e} ${esc(r.i.n)}</div>
+          <div class="rwho">${r.must.length?`<span class="m">絶対</span> ${r.must.map(esc).join("・")}　`:""}${r.maybe.length?`<span class="y">気になる</span> ${r.maybe.map(esc).join("・")}`:""}</div></div>
+        <div><div class="meter">${bars}</div><div class="score">${r.score}点</div></div>
+      </div>`;
+    });
+  }
+
+  const memos = pool.filter(([id,v]) => v.memo && v.memo.trim());
+  html += `<div class="rcat">💬 ひとこと</div>`;
+  html += memos.length ? `<div class="comments">` + memos.map(([id,v]) => `<div class="cm"><b>${esc(v.name || "名無し")}</b>${esc(v.memo)}</div>`).join("") + `</div>` : `<div class="empty" style="padding:6px 4px">まだなし</div>`;
+  return html;
+}
+
+function renderBar(){
+  const total = ITEMS.length;
+  const done = Object.keys(state.picks).filter(k => ITEMS.some(i => i.id === k)).length;
+  const must = Object.values(state.picks).filter(v => v === 2).length;
+  $("#prog").innerHTML = `<strong>${done}/${total}</strong> 回答済み<br>絶対行きたい ${must}件`;
+  const sb = $("#saveBtn");
+  sb.disabled = saving || dbStatus === "off";
+  sb.textContent = saving ? "保存中…" : (dbStatus === "off") ? "保存不可" : "保存";
+}
+
+function renderAll(){ renderTabs(); renderMain(); renderBar(); }
+
+// ---------- text export ----------
+function exportText(){
+  const name = MEMBERS[state.name] || "（名前未入力）";
+  let out = `【ソウル旅行アンケート】${name}\n`;
+  for(const c of CATS.filter(x => ["area","spot","exp","food"].includes(x.id))){
+    const m = catItems(c.id).filter(i => state.picks[i.id] === 2).map(i => i.n);
+    const y = catItems(c.id).filter(i => state.picks[i.id] === 1).map(i => i.n);
+    if(!m.length && !y.length) continue;
+    out += `\n${c.emoji}${c.label}\n`;
+    if(m.length) out += `◎絶対：${m.join("、")}\n`;
+    if(y.length) out += `○気になる：${y.join("、")}\n`;
+  }
+  if(state.memo.trim()) out += `\n💬${state.memo.trim()}\n`;
+  return out;
+}
+
+// ---------- events ----------
+document.addEventListener("click", e => {
+  const t = e.target.closest("[data-tab]");
+  if(t){ tab = t.dataset.tab; renderAll(); window.scrollTo({top: $("nav").offsetTop - 0, behavior:"smooth"}); return; }
+  const v = e.target.closest(".vb");
+  if(v){
+    const id = v.dataset.id, val = Number(v.dataset.v);
+    if(state.picks[id] === val) delete state.picks[id]; else state.picks[id] = val;
+    persist(); renderTabs(); renderBar();
+    const card = v.closest(".item");
+    card.classList.toggle("v2", state.picks[id] === 2);
+    card.classList.toggle("v1", state.picks[id] === 1);
+    card.querySelectorAll(".vb").forEach(b => b.setAttribute("aria-pressed", String(state.picks[id] === Number(b.dataset.v))));
+  }
+});
+
+$("#name").addEventListener("change", e => {
+  state.name = e.target.value; persist();
+  const mine = allVotes[state.name];
+  if(mine && !Object.keys(state.picks).length){
+    state.picks = Object.assign({}, mine.picks || {}); state.memo = String(mine.memo || ""); persist(); renderAll();
+    toast("前に保存した回答を読み込んだよ");
+  }
+});
+
+$("#copyBtn").addEventListener("click", async () => {
+  if(!state.name){ toast("先に名前を選んでね"); $("#name").focus(); return; }
+  const txt = exportText();
+  try{
+    await navigator.clipboard.writeText(txt);
+    toast("コピーした！LINEに貼ってね");
+  }catch(err){
+    $("#modalText").value = txt; $("#modal").classList.add("open");
+  }
+});
+$("#modalClose").addEventListener("click", () => $("#modal").classList.remove("open"));
+$("#modal").addEventListener("click", e => { if(e.target.id === "modal") $("#modal").classList.remove("open"); });
+
+$("#saveBtn").addEventListener("click", async () => {
+  if(!state.name){ toast("先に名前を選んでね"); $("#name").focus(); return; }
+  if(!db){ toast("保存先につながってないので「LINE用にコピー」で送ってね"); return; }
+  saving = true; renderBar();
+  const body = {name: MEMBERS[state.name], key: state.name, picks: Object.assign({}, state.picks), memo: state.memo.slice(0,1000), updatedAt: new Date().toISOString()};
+  try{
+    await saveVote(state.name, body);
+    toast("保存した！集計タブで見れるよ");
+  }catch(err){
+    console.error(err);
+    toast("保存に失敗…。電波を確認してもう一回押してみて");
+  }
+  saving = false; renderAll();
+});
+
+// ---------- Firebase ----------
+// ↓↓↓ Firebaseコンソールの firebaseConfig をここに貼る ↓↓↓
+const firebaseConfig = {
+  apiKey: "AIzaSyBurZiNjmS2nz_oRrDpAwQ4eN4UPaMQiy0",
+  authDomain: "seoul-trip-86330.firebaseapp.com",
+  projectId: "seoul-trip-86330",
+  storageBucket: "seoul-trip-86330.firebasestorage.app",
+  messagingSenderId: "443621617442",
+  appId: "1:443621617442:web:019af60994a8a7ed24ff7b"
+};
+// ↑↑↑ ここまで ↑↑↑
+
+const FB_VER = "10.12.2";
+let fs = null; // firestore関数たち
+
+async function saveVote(key, body){
+  await fs.setDoc(fs.doc(db, "votes", key), body);
+}
+
+async function initDb(){
+  if(!firebaseConfig.apiKey || !firebaseConfig.projectId){
+    console.warn("firebaseConfig が未設定です");
+    dbStatus = "off"; renderAll(); return;
+  }
+  try{
+    const appMod = await import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-app.js`);
+    fs = await import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-firestore.js`);
+    const app = appMod.initializeApp(firebaseConfig);
+    db = fs.getFirestore(app);
+  }catch(e){
+    console.error(e); db = null; dbStatus = "off"; renderAll(); return;
+  }
+  dbTimer = setTimeout(() => { if(dbStatus === "connecting"){ dbStatus = "stale"; renderAll(); } }, 10000);
+  fs.onSnapshot(fs.collection(db, "votes"), snap => {
+    const next = {};
+    snap.docs.forEach(d => { const v = d.data(); if(v && typeof v === "object" && MEMBERS[d.id]) next[d.id] = Object.assign({}, v, {name: MEMBERS[d.id]}); });
+    allVotes = next;
+    clearTimeout(dbTimer); dbStatus = "live";
+    const mine = state.name && next[state.name];
+    if(mine && !Object.keys(state.picks).length){
+      state.picks = Object.assign({}, mine.picks || {}); state.memo = String(mine.memo || ""); persist();
+    }
+    renderAll();
+  }, err => {
+    console.error(err); clearTimeout(dbTimer); dbStatus = "off"; renderAll();
+  });
+  renderAll();
+}
+
+// ---------- boot ----------
+load();
+if(!MEMBERS[state.name]) state.name = "";
+$("#name").value = state.name;
+renderAll();
+initDb();
+</script>
+</body>
+</html>
