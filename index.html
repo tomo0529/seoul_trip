@@ -35,27 +35,31 @@
   .links a{font-size:12px;font-weight:700;color:var(--blue);text-decoration:none;background:#eef2f9;border-radius:8px;padding:5px 9px}
   .links a:active{background:#dce5f4}
   /* ---- wa/ri banner (Y.NetLabo) ---- */
-  .wari{position:relative;margin:16px 0 0;border-radius:20px;overflow:hidden;color:#eef1f6;background:#14181f;
-    box-shadow:0 12px 28px -14px rgba(20,24,31,.7)}
-  .wari::before{content:"";position:absolute;inset:0;background:radial-gradient(80% 90% at 100% 0%,rgba(120,150,210,.22),transparent 60%);pointer-events:none}
-  .wari .in{position:relative;display:grid;grid-template-columns:1fr 150px;gap:10px;padding:16px 16px 18px 18px}
-  .wari .top{display:flex;align-items:center;justify-content:space-between;font-size:10px;letter-spacing:.14em;color:#8b93a3;font-weight:700;margin-bottom:12px}
-  .wari .brand{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-  .wari .brand img,.wari .brand .logo{width:44px;height:44px;border-radius:11px;flex:none;background:#fff;object-fit:cover;box-shadow:0 0 0 1px rgba(255,255,255,.12)}
-  .wari .brand .logo{display:none;align-items:center;justify-content:center;color:#14181f;font-weight:900;font-size:13px}
-  .wari .brand b{display:block;font-size:17px;font-weight:900;letter-spacing:.01em;color:#fff}
-  .wari .brand small{display:block;font-size:11px;color:#8b93a3}
-  .wari h3{margin:0 0 6px;font-size:clamp(18px,4.8vw,22px);line-height:1.35;font-weight:900;color:#fff}
-  .wari p{margin:0 0 12px;font-size:12px;line-height:1.7;color:#b9c0cc}
-  .wari .feat{list-style:none;margin:0 0 14px;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:6px}
-  .wari .feat li{font-size:11.5px;font-weight:700;color:#dfe4ec;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:10px;padding:7px 8px;line-height:1.35}
-  .wari .feat li i{font-style:normal;margin-right:4px}
-  .wari .btns{display:flex;flex-wrap:wrap;gap:6px}
-  .wari .btns a{font-size:12px;font-weight:900;text-decoration:none;border-radius:999px;padding:8px 13px;border:1px solid rgba(255,255,255,.2);color:#fff}
-  .wari .btns a.main{background:#fff;color:#14181f;border-color:#fff}
-  .wari .art{position:relative;min-height:220px}
-  .wari .art svg{position:absolute;right:-4px;top:4px;width:150px;filter:drop-shadow(0 16px 20px rgba(0,0,0,.45))}
-  @media (max-width:420px){ .wari .in{grid-template-columns:1fr 112px} .wari .art svg{width:122px;right:-14px} .wari .feat{grid-template-columns:1fr} }
+  .wari{position:relative;margin:16px 0 0;border-radius:22px;overflow:hidden;color:#1d1d24;background:#faf8f5;border:1px solid #ece7e0;
+    box-shadow:0 12px 28px -18px rgba(60,40,80,.35)}
+  .wari .wash{position:absolute;inset:0;pointer-events:none;
+    background:
+      radial-gradient(38% 50% at 96% 8%,rgba(236,120,170,.30),transparent 70%),
+      radial-gradient(30% 40% at 4% 96%,rgba(110,190,230,.30),transparent 70%),
+      radial-gradient(22% 30% at 70% 100%,rgba(255,200,90,.22),transparent 70%)}
+  .wari .in{position:relative;padding:16px 0 18px}
+  .wari .hd{display:flex;align-items:center;gap:10px;padding:0 18px}
+  .wari .hd img,.wari .hd .logo{width:46px;height:46px;border-radius:12px;flex:none;background:#fff;object-fit:cover;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+  .wari .hd .logo{display:none;align-items:center;justify-content:center;font-weight:900;font-size:13px;color:#6a4be0}
+  .wari .hd b{display:block;font-size:17px;font-weight:900}
+  .wari .hd small{display:block;font-size:11px;color:#7a7682}
+  .wari .hd .pr{margin-left:auto;align-self:flex-start;font-size:10px;font-weight:700;letter-spacing:.12em;color:#9a95a2;border:1px solid #ddd6cc;border-radius:6px;padding:2px 6px}
+  .wari h3{margin:14px 18px 4px;font-size:clamp(20px,5.4vw,25px);line-height:1.3;font-weight:900;letter-spacing:.01em}
+  .wari h3 em{font-style:normal;color:#e4553f}
+  .wari p{margin:0 18px 12px;font-size:12.5px;line-height:1.7;color:#55515d}
+  .wari .shots{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 18px 12px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .wari .shots::-webkit-scrollbar{display:none}
+  .wari .shots img{flex:none;width:clamp(138px,38vw,170px);height:auto;border-radius:14px;scroll-snap-align:start;box-shadow:0 6px 16px -8px rgba(40,30,60,.35);background:#fff}
+  .wari .btns{display:flex;flex-wrap:wrap;gap:6px;padding:0 18px}
+  .wari .btns a{font-size:12px;font-weight:900;text-decoration:none;border-radius:999px;padding:9px 14px;border:1px solid #d9d2c8;color:#1d1d24;background:#fff}
+  .wari .btns a.main{background:#1d1d24;color:#fff;border-color:#1d1d24}
+  .wari .hint{font-size:10.5px;color:#9a95a2;padding:0 18px;margin:-4px 0 8px}
+  @media (min-width:720px){ .wari .hint{display:none} }
 
   .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--sub);margin:10px 2px 0}
   .legend span{display:inline-flex;align-items:center;gap:5px}
@@ -158,72 +162,28 @@
     <a href="https://map.naver.com/" target="_blank" rel="noopener">NAVERマップ</a>
   </div>
   <aside class="wari" aria-label="広告：割り勘アプリ wa/ri">
+    <div class="wash"></div>
     <div class="in">
-      <div>
-        <div class="top"><span>PR</span><span>Y.NetLabo</span></div>
-        <div class="brand">
-          <img src="https://ynetlabo.net/images/apps/wari.png" alt="wa/ri のアイコン" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <span class="logo" aria-hidden="true">wa/ri</span>
-          <div><b>wa/ri</b><small>割り勘計算アプリ</small></div>
-        </div>
-        <h3>旅行の精算、<br>計算過程まで見える。</h3>
-        <p>ウォンのまま記録して、最後は円で精算。招待リンクなら、みんなはアプリなしで結果を確認できます。</p>
-        <ul class="feat">
-          <li><i>💱</i>外貨ルームで記録</li>
-          <li><i>🔗</i>登録なしですぐ開始</li>
-          <li><i>🧾</i>レシートを撮って入力</li>
-          <li><i>✅</i>支払い済みをチェック</li>
-        </ul>
-        <div class="btns">
-          <a class="main" href="https://ynetlabo.net/apps/wa-ri/" target="_blank" rel="noopener sponsored">詳しく見る</a>
-          <a href="https://apps.apple.com/jp/app/wa-ri/id6743655018" target="_blank" rel="noopener sponsored">App Store</a>
-          <a href="https://play.google.com/store/apps/details?id=ynetlabo.net.wari" target="_blank" rel="noopener sponsored">Google Play</a>
-          <a href="https://wa-ri.ynetlabo.net/" target="_blank" rel="noopener sponsored">Web版</a>
-        </div>
+      <div class="hd">
+        <img src="https://ynetlabo.net/images/apps/wari.png" alt="wa/ri のアイコン" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <span class="logo" aria-hidden="true">wa/ri</span>
+        <div><b>割り勘 wa/ri</b><small>旅行・飲み会の精算 ｜ Y.NetLabo</small></div>
+        <span class="pr">PR</span>
       </div>
-      <div class="art" aria-hidden="true">
-        <svg viewBox="0 0 160 330" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
-          <rect x="4" y="4" width="152" height="300" rx="26" fill="#2a303b"/>
-          <rect x="10" y="10" width="140" height="288" rx="21" fill="#f6f7f9"/>
-          <rect x="60" y="16" width="40" height="9" rx="4.5" fill="#2a303b"/>
-          <text x="20" y="46" font-size="10.5" font-weight="900" fill="#14181f">ソウル旅行</text>
-          <rect x="102" y="36" width="38" height="14" rx="7" fill="#14181f"/>
-          <text x="121" y="46" font-size="7" font-weight="700" fill="#fff" text-anchor="middle">KRW→JPY</text>
-          <text x="20" y="60" font-size="7" fill="#8b93a3">6人 ・ 4/23 - 4/25</text>
-          <g>
-            <rect x="16" y="68" width="128" height="30" rx="8" fill="#fff" stroke="#e5e8ee"/>
-            <text x="24" y="81" font-size="7.5" font-weight="700" fill="#14181f">サムギョプサル</text>
-            <text x="24" y="92" font-size="6" fill="#8b93a3">たくや が支払い</text>
-            <text x="136" y="87" font-size="7.5" font-weight="900" fill="#14181f" text-anchor="end">₩180,000</text>
-            <rect x="16" y="102" width="128" height="30" rx="8" fill="#fff" stroke="#e5e8ee"/>
-            <text x="24" y="115" font-size="7.5" font-weight="700" fill="#14181f">タクシー</text>
-            <text x="24" y="126" font-size="6" fill="#8b93a3">りょへ が支払い</text>
-            <text x="136" y="121" font-size="7.5" font-weight="900" fill="#14181f" text-anchor="end">₩24,000</text>
-          </g>
-          <text x="20" y="150" font-size="7" font-weight="700" fill="#8b93a3">計算過程</text>
-          <g font-size="6.5" fill="#3b4250">
-            <text x="20" y="164">合計 ₩204,000 ÷ 6人</text>
-            <text x="20" y="176">= 1人 ₩34,000（約¥3,600）</text>
-            <text x="20" y="188">たくや：+₩146,000</text>
-            <text x="20" y="200">りょへ：−₩10,000</text>
-          </g>
-          <rect x="16" y="210" width="128" height="54" rx="10" fill="#14181f"/>
-          <text x="25" y="225" font-size="6.5" fill="#8b93a3">精算</text>
-          <text x="25" y="240" font-size="7.5" font-weight="700" fill="#fff">ちーくん → たくや</text>
-          <text x="25" y="254" font-size="7.5" font-weight="700" fill="#fff">ゆうくん → たくや</text>
-          <text x="136" y="240" font-size="7" fill="#9fd3a8" text-anchor="end">✓ 済</text>
-          <text x="136" y="254" font-size="7" fill="#8b93a3" text-anchor="end">未</text>
-          <!-- little penguin -->
-          <g transform="translate(110 262)">
-            <ellipse cx="18" cy="30" rx="15" ry="17" fill="#14181f"/>
-            <ellipse cx="18" cy="33" rx="10" ry="12" fill="#fff"/>
-            <circle cx="13.5" cy="22" r="2" fill="#fff"/><circle cx="22.5" cy="22" r="2" fill="#fff"/>
-            <circle cx="13.8" cy="22.3" r="1.1" fill="#14181f"/><circle cx="22.8" cy="22.3" r="1.1" fill="#14181f"/>
-            <path d="M15.5 26 L20.5 26 L18 29 Z" fill="#f2b33d"/>
-            <path d="M4 28 Q0 36 6 40" stroke="#14181f" stroke-width="4" fill="none" stroke-linecap="round"/>
-            <path d="M32 28 Q37 34 33 39" stroke="#14181f" stroke-width="4" fill="none" stroke-linecap="round"/>
-          </g>
-        </svg>
+      <h3>旅行の割り勘、<br><em>計算過程</em>まで見える。</h3>
+      <p>ウォンのまま記録して、最後は円で精算。アプリなしの人にも、リンクや画像でかんたんに共有できます。</p>
+      <div class="shots">
+        <img src="img/wari-1.jpg" alt="ルーム画面：直感でシンプルに、みんなで共有・編集できる" loading="lazy">
+        <img src="img/wari-2.jpg" alt="共有画面：共有はWeb/画像で、アプリなしの人にも簡単に共有" loading="lazy">
+        <img src="img/wari-3.jpg" alt="記録の一覧：日別・人別・カテゴリ別に見やすく" loading="lazy">
+        <img src="img/wari-4.jpg" alt="精算画面：2種類の割り方で、支払いが1つにまとまる" loading="lazy">
+      </div>
+      <div class="hint">← 横にスワイプで画面を見る</div>
+      <div class="btns">
+        <a class="main" href="https://apps.apple.com/jp/app/%E5%89%B2%E3%82%8A%E5%8B%98-wa-ri-%E6%97%85%E8%A1%8C-%E9%A3%B2%E3%81%BF%E4%BC%9A%E3%81%AE%E7%B2%BE%E7%AE%97/id6743655018" target="_blank" rel="noopener sponsored">App Store で入手</a>
+        <a href="https://play.google.com/store/apps/details?id=ynetlabo.net.wari" target="_blank" rel="noopener sponsored">Google Play</a>
+        <a href="https://wa-ri.ynetlabo.net/" target="_blank" rel="noopener sponsored">Web版</a>
+        <a href="https://ynetlabo.net/apps/wa-ri/" target="_blank" rel="noopener sponsored">詳しく</a>
       </div>
     </div>
   </aside>
