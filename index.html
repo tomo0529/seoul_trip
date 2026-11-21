@@ -34,6 +34,14 @@
   .links{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
   .links a{font-size:12px;font-weight:700;color:var(--blue);text-decoration:none;background:#eef2f9;border-radius:8px;padding:5px 9px}
   .links a:active{background:#dce5f4}
+  .ad{display:grid;grid-template-columns:52px 1fr auto;gap:12px;align-items:center;margin:14px 0 0;padding:12px 14px;border-radius:var(--radius);background:linear-gradient(135deg,#1d1b19,#3a332c);color:#fff;text-decoration:none;position:relative}
+  .ad .pr{position:absolute;top:6px;right:10px;font-size:10px;letter-spacing:.08em;color:#bdb4a8;font-weight:700}
+  .ad .ic{width:52px;height:52px;border-radius:12px;background:#fff;color:var(--ink);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:17px;letter-spacing:-.02em}
+  .ad .ic span{color:var(--red)}
+  .ad .tx b{display:block;font-size:15px;margin-bottom:2px}
+  .ad .tx small{display:block;font-size:12px;color:#d9d2c8;line-height:1.5}
+  .ad .go{font-size:12px;font-weight:900;background:#fff;color:var(--ink);border-radius:999px;padding:8px 12px;white-space:nowrap}
+  @media (max-width:420px){ .ad{grid-template-columns:44px 1fr} .ad .ic{width:44px;height:44px;font-size:14px} .ad .go{grid-column:1 / -1;text-align:center} }
 
   .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--sub);margin:10px 2px 0}
   .legend span{display:inline-flex;align-items:center;gap:5px}
@@ -135,6 +143,12 @@
     <a href="https://www.konest.com/" target="_blank" rel="noopener">コネスト</a>
     <a href="https://map.naver.com/" target="_blank" rel="noopener">NAVERマップ</a>
   </div>
+  <a class="ad" href="https://apps.apple.com/jp/app/wa-ri-%E6%97%85%E8%A1%8C-%E9%A3%B2%E3%81%BF%E4%BC%9A%E3%81%A7%E5%89%B2%E3%82%8A%E5%8B%98/id6743655018" target="_blank" rel="noopener sponsored">
+    <span class="pr">PR</span>
+    <span class="ic" aria-hidden="true">wa<span>/</span>ri</span>
+    <span class="tx"><b>旅行の精算は「割り勘 wa/ri」で</b><small>みんなの立て替えをかんたん割り勘。リンク共有で共同編集、レシート読み取りにも対応。</small></span>
+    <span class="go">App Storeで見る</span>
+  </a>
   <div class="legend">
     <span><i class="dot" style="background:var(--must)"></i>#マスト＝2点</span>
     <span><i class="dot" style="background:var(--maybe)"></i>#できれば＝1点</span>
