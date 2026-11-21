@@ -34,25 +34,28 @@
   .links{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
   .links a{font-size:12px;font-weight:700;color:var(--blue);text-decoration:none;background:#eef2f9;border-radius:8px;padding:5px 9px}
   .links a:active{background:#dce5f4}
-  /* ---- wa/ri banner ---- */
-  .wari{position:relative;display:block;margin:16px 0 0;border-radius:20px;overflow:hidden;text-decoration:none;color:#fff;
-    background:radial-gradient(120% 140% at 100% 0%,#5b8cff 0%,#3b5bdb 38%,#22327a 100%);box-shadow:0 10px 30px -12px rgba(34,50,122,.55)}
-  .wari .in{display:grid;grid-template-columns:1fr 150px;gap:8px;align-items:center;padding:18px 16px 18px 20px;min-height:200px}
-  .wari .pr{position:absolute;top:10px;left:20px;font-size:10px;font-weight:700;letter-spacing:.14em;color:rgba(255,255,255,.65)}
-  .wari .brand{display:flex;align-items:center;gap:8px;margin:14px 0 8px}
-  .wari .brand img,.wari .brand .logo{width:34px;height:34px;border-radius:9px;background:#fff;flex:none;box-shadow:0 2px 6px rgba(0,0,0,.2)}
-  .wari .brand .logo{display:flex;align-items:center;justify-content:center;color:#22327a;font-weight:900;font-size:12px;letter-spacing:-.03em}
-  .wari .brand b{font-size:14px;font-weight:900;letter-spacing:.02em}
-  .wari h3{margin:0 0 6px;font-size:clamp(19px,5vw,23px);line-height:1.3;font-weight:900}
-  .wari h3 em{font-style:normal;color:#ffd666}
-  .wari p{margin:0 0 12px;font-size:12px;line-height:1.6;color:rgba(255,255,255,.82)}
-  .wari .chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}
-  .wari .chips span{font-size:11px;font-weight:700;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:3px 9px}
-  .wari .cta{display:inline-flex;align-items:center;gap:6px;background:#fff;color:#22327a;font-weight:900;font-size:13px;border-radius:999px;padding:9px 14px}
-  .wari .art{position:relative;height:100%;min-height:190px}
-  .wari .art svg,.wari .art img.shot{position:absolute;right:-6px;top:22px;width:150px;filter:drop-shadow(0 14px 18px rgba(0,0,0,.35));transform:rotate(6deg)}
-  .wari .art img.shot{border-radius:18px;border:4px solid #111}
-  @media (max-width:400px){ .wari .in{grid-template-columns:1fr 118px} .wari .art svg,.wari .art img.shot{width:124px} }
+  /* ---- wa/ri banner (Y.NetLabo) ---- */
+  .wari{position:relative;margin:16px 0 0;border-radius:20px;overflow:hidden;color:#eef1f6;background:#14181f;
+    box-shadow:0 12px 28px -14px rgba(20,24,31,.7)}
+  .wari::before{content:"";position:absolute;inset:0;background:radial-gradient(80% 90% at 100% 0%,rgba(120,150,210,.22),transparent 60%);pointer-events:none}
+  .wari .in{position:relative;display:grid;grid-template-columns:1fr 150px;gap:10px;padding:16px 16px 18px 18px}
+  .wari .top{display:flex;align-items:center;justify-content:space-between;font-size:10px;letter-spacing:.14em;color:#8b93a3;font-weight:700;margin-bottom:12px}
+  .wari .brand{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  .wari .brand img,.wari .brand .logo{width:44px;height:44px;border-radius:11px;flex:none;background:#fff;object-fit:cover;box-shadow:0 0 0 1px rgba(255,255,255,.12)}
+  .wari .brand .logo{display:none;align-items:center;justify-content:center;color:#14181f;font-weight:900;font-size:13px}
+  .wari .brand b{display:block;font-size:17px;font-weight:900;letter-spacing:.01em;color:#fff}
+  .wari .brand small{display:block;font-size:11px;color:#8b93a3}
+  .wari h3{margin:0 0 6px;font-size:clamp(18px,4.8vw,22px);line-height:1.35;font-weight:900;color:#fff}
+  .wari p{margin:0 0 12px;font-size:12px;line-height:1.7;color:#b9c0cc}
+  .wari .feat{list-style:none;margin:0 0 14px;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  .wari .feat li{font-size:11.5px;font-weight:700;color:#dfe4ec;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:10px;padding:7px 8px;line-height:1.35}
+  .wari .feat li i{font-style:normal;margin-right:4px}
+  .wari .btns{display:flex;flex-wrap:wrap;gap:6px}
+  .wari .btns a{font-size:12px;font-weight:900;text-decoration:none;border-radius:999px;padding:8px 13px;border:1px solid rgba(255,255,255,.2);color:#fff}
+  .wari .btns a.main{background:#fff;color:#14181f;border-color:#fff}
+  .wari .art{position:relative;min-height:220px}
+  .wari .art svg{position:absolute;right:-4px;top:4px;width:150px;filter:drop-shadow(0 16px 20px rgba(0,0,0,.45))}
+  @media (max-width:420px){ .wari .in{grid-template-columns:1fr 112px} .wari .art svg{width:122px;right:-14px} .wari .feat{grid-template-columns:1fr} }
 
   .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--sub);margin:10px 2px 0}
   .legend span{display:inline-flex;align-items:center;gap:5px}
@@ -154,48 +157,76 @@
     <a href="https://www.konest.com/" target="_blank" rel="noopener">コネスト</a>
     <a href="https://map.naver.com/" target="_blank" rel="noopener">NAVERマップ</a>
   </div>
-  <a class="wari" href="https://apps.apple.com/jp/app/wa-ri-%E6%97%85%E8%A1%8C-%E9%A3%B2%E3%81%BF%E4%BC%9A%E3%81%A7%E5%89%B2%E3%82%8A%E5%8B%98/id6743655018" target="_blank" rel="noopener sponsored">
-    <span class="pr">PR</span>
+  <aside class="wari" aria-label="広告：割り勘アプリ wa/ri">
     <div class="in">
       <div>
-        <div class="brand"><span class="logo" aria-hidden="true">wa/ri</span><b>割り勘 wa/ri</b></div>
-        <h3>ソウルの立て替え、<br><em>ウォンのまま</em>割り勘。</h3>
-        <p>計算過程まで見える。立替も外貨もグループ管理。</p>
-        <div class="chips"><span>💱 外貨OK</span><span>🔗 リンクで共同編集</span><span>🧾 レシート読取</span></div>
-        <span class="cta"> App Storeで見る →</span>
+        <div class="top"><span>PR</span><span>Y.NetLabo</span></div>
+        <div class="brand">
+          <img src="https://ynetlabo.net/images/apps/wari.png" alt="wa/ri のアイコン" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <span class="logo" aria-hidden="true">wa/ri</span>
+          <div><b>wa/ri</b><small>割り勘計算アプリ</small></div>
+        </div>
+        <h3>旅行の精算、<br>計算過程まで見える。</h3>
+        <p>ウォンのまま記録して、最後は円で精算。招待リンクなら、みんなはアプリなしで結果を確認できます。</p>
+        <ul class="feat">
+          <li><i>💱</i>外貨ルームで記録</li>
+          <li><i>🔗</i>登録なしですぐ開始</li>
+          <li><i>🧾</i>レシートを撮って入力</li>
+          <li><i>✅</i>支払い済みをチェック</li>
+        </ul>
+        <div class="btns">
+          <a class="main" href="https://ynetlabo.net/apps/wa-ri/" target="_blank" rel="noopener sponsored">詳しく見る</a>
+          <a href="https://apps.apple.com/jp/app/wa-ri/id6743655018" target="_blank" rel="noopener sponsored">App Store</a>
+          <a href="https://play.google.com/store/apps/details?id=ynetlabo.net.wari" target="_blank" rel="noopener sponsored">Google Play</a>
+          <a href="https://wa-ri.ynetlabo.net/" target="_blank" rel="noopener sponsored">Web版</a>
+        </div>
       </div>
       <div class="art" aria-hidden="true">
-        <svg viewBox="0 0 160 300" xmlns="http://www.w3.org/2000/svg">
-          <rect x="4" y="4" width="152" height="292" rx="26" fill="#111"/>
-          <rect x="11" y="11" width="138" height="278" rx="20" fill="#f7f8fc"/>
-          <rect x="58" y="16" width="44" height="10" rx="5" fill="#111"/>
-          <text x="22" y="48" font-size="11" font-weight="900" fill="#22327a" font-family="sans-serif">ソウル旅行 🇰🇷</text>
-          <text x="22" y="62" font-size="7.5" fill="#8a90a6" font-family="sans-serif">6人 ・ 4/23 - 4/25</text>
-          <g font-family="sans-serif">
-            <rect x="18" y="72" width="124" height="34" rx="9" fill="#fff" stroke="#e6e9f2"/>
-            <text x="27" y="86" font-size="8" font-weight="700" fill="#1d1b19">🥓 サムギョプサル</text>
-            <text x="27" y="98" font-size="6.5" fill="#8a90a6">たくや が立替</text>
-            <text x="134" y="92" font-size="8" font-weight="900" fill="#1d1b19" text-anchor="end">₩180,000</text>
-            <rect x="18" y="111" width="124" height="34" rx="9" fill="#fff" stroke="#e6e9f2"/>
-            <text x="27" y="125" font-size="8" font-weight="700" fill="#1d1b19">🚕 タクシー</text>
-            <text x="27" y="137" font-size="6.5" fill="#8a90a6">りょへ が立替</text>
-            <text x="134" y="131" font-size="8" font-weight="900" fill="#1d1b19" text-anchor="end">₩24,000</text>
-            <rect x="18" y="150" width="124" height="34" rx="9" fill="#fff" stroke="#e6e9f2"/>
-            <text x="27" y="164" font-size="8" font-weight="700" fill="#1d1b19">🏨 ホテル</text>
-            <text x="27" y="176" font-size="6.5" fill="#8a90a6">けんさん が立替</text>
-            <text x="134" y="170" font-size="8" font-weight="900" fill="#1d1b19" text-anchor="end">¥96,000</text>
-            <rect x="18" y="194" width="124" height="70" rx="12" fill="#3b5bdb"/>
-            <text x="28" y="210" font-size="7" fill="#c9d4ff">精算結果</text>
-            <text x="28" y="226" font-size="8" font-weight="700" fill="#fff">ちーくん → たくや</text>
-            <text x="132" y="226" font-size="9" font-weight="900" fill="#ffd666" text-anchor="end">¥4,820</text>
-            <text x="28" y="242" font-size="8" font-weight="700" fill="#fff">ゆうくん → りょへ</text>
-            <text x="132" y="242" font-size="9" font-weight="900" fill="#ffd666" text-anchor="end">¥3,150</text>
-            <text x="28" y="256" font-size="6" fill="#c9d4ff">計算過程を見る ›</text>
+        <svg viewBox="0 0 160 330" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
+          <rect x="4" y="4" width="152" height="300" rx="26" fill="#2a303b"/>
+          <rect x="10" y="10" width="140" height="288" rx="21" fill="#f6f7f9"/>
+          <rect x="60" y="16" width="40" height="9" rx="4.5" fill="#2a303b"/>
+          <text x="20" y="46" font-size="10.5" font-weight="900" fill="#14181f">ソウル旅行</text>
+          <rect x="102" y="36" width="38" height="14" rx="7" fill="#14181f"/>
+          <text x="121" y="46" font-size="7" font-weight="700" fill="#fff" text-anchor="middle">KRW→JPY</text>
+          <text x="20" y="60" font-size="7" fill="#8b93a3">6人 ・ 4/23 - 4/25</text>
+          <g>
+            <rect x="16" y="68" width="128" height="30" rx="8" fill="#fff" stroke="#e5e8ee"/>
+            <text x="24" y="81" font-size="7.5" font-weight="700" fill="#14181f">サムギョプサル</text>
+            <text x="24" y="92" font-size="6" fill="#8b93a3">たくや が支払い</text>
+            <text x="136" y="87" font-size="7.5" font-weight="900" fill="#14181f" text-anchor="end">₩180,000</text>
+            <rect x="16" y="102" width="128" height="30" rx="8" fill="#fff" stroke="#e5e8ee"/>
+            <text x="24" y="115" font-size="7.5" font-weight="700" fill="#14181f">タクシー</text>
+            <text x="24" y="126" font-size="6" fill="#8b93a3">りょへ が支払い</text>
+            <text x="136" y="121" font-size="7.5" font-weight="900" fill="#14181f" text-anchor="end">₩24,000</text>
+          </g>
+          <text x="20" y="150" font-size="7" font-weight="700" fill="#8b93a3">計算過程</text>
+          <g font-size="6.5" fill="#3b4250">
+            <text x="20" y="164">合計 ₩204,000 ÷ 6人</text>
+            <text x="20" y="176">= 1人 ₩34,000（約¥3,600）</text>
+            <text x="20" y="188">たくや：+₩146,000</text>
+            <text x="20" y="200">りょへ：−₩10,000</text>
+          </g>
+          <rect x="16" y="210" width="128" height="54" rx="10" fill="#14181f"/>
+          <text x="25" y="225" font-size="6.5" fill="#8b93a3">精算</text>
+          <text x="25" y="240" font-size="7.5" font-weight="700" fill="#fff">ちーくん → たくや</text>
+          <text x="25" y="254" font-size="7.5" font-weight="700" fill="#fff">ゆうくん → たくや</text>
+          <text x="136" y="240" font-size="7" fill="#9fd3a8" text-anchor="end">✓ 済</text>
+          <text x="136" y="254" font-size="7" fill="#8b93a3" text-anchor="end">未</text>
+          <!-- little penguin -->
+          <g transform="translate(110 262)">
+            <ellipse cx="18" cy="30" rx="15" ry="17" fill="#14181f"/>
+            <ellipse cx="18" cy="33" rx="10" ry="12" fill="#fff"/>
+            <circle cx="13.5" cy="22" r="2" fill="#fff"/><circle cx="22.5" cy="22" r="2" fill="#fff"/>
+            <circle cx="13.8" cy="22.3" r="1.1" fill="#14181f"/><circle cx="22.8" cy="22.3" r="1.1" fill="#14181f"/>
+            <path d="M15.5 26 L20.5 26 L18 29 Z" fill="#f2b33d"/>
+            <path d="M4 28 Q0 36 6 40" stroke="#14181f" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <path d="M32 28 Q37 34 33 39" stroke="#14181f" stroke-width="4" fill="none" stroke-linecap="round"/>
           </g>
         </svg>
       </div>
     </div>
-  </a>
+  </aside>
   <div class="legend">
     <span><i class="dot" style="background:var(--must)"></i>#マスト＝2点</span>
     <span><i class="dot" style="background:var(--maybe)"></i>#できれば＝1点</span>
